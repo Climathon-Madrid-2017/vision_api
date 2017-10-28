@@ -75,6 +75,8 @@ def report(annotations):
                 tlat = tags['GPS GPSLatitude'].values
                 tlon = tags['GPS GPSLongitude'].values
                 lon = tlon[0].num/tlon[0].den + tlon[1].num/tlon[1].den/60.0 + tlon[2].num/tlon[2].den/3600.0
+                # To check how to do this properly!!
+                lon = -lon
                 lat = tlat[0].num/tlat[0].den + tlat[1].num/tlat[1].den/60.0 + tlat[2].num/tlat[2].den/3600.0
                 h, m, s =  tags["GPS GPSTimeStamp"].values
                 datum = "{} {}:{}:{}".format(tags["GPS GPSDate"],str(h), str(m),str(s))
@@ -86,9 +88,9 @@ def report(annotations):
 
             f.close()
             with open('annotations.csv','a') as my_file:
-                my_file.write(','.join([datum[:-4], args.image_url.split('/')[-1], str(lat), str(lon),(entity.description),str(entity.score)[:4]+'\n']))
+                my_file.write(','.join([args.image_url.split('/')[-1],datum[:-4], str(lat), str(lon),(entity.description),str(entity.score)[:4]+'\n']))
             my_file.close()
-            print(','.join([datum[:-4], args.image_url.split('/')[-1], str(lat), str(lon), (entity.description),str(entity.score)[:4]]))
+            print(','.join([args.image_url.split('/')[-1],datum[:-4],str(lat), str(lon), (entity.description),str(entity.score)[:4]]))
             # print('Score      : {}'.format(entity.score))
             # print('Description: {}'.format(entity.description))
     print('')
